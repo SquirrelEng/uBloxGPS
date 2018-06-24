@@ -29,12 +29,11 @@ uBloxGPS::uBloxGPS()
 //
 // Main function to feed serial data into
 //
-void uBloxGPS::FeedMe(char ch) // Send Serial stream to this function one char at a time
+void uBloxGPS::FeedMe(uint8_t ch) // Send Serial stream to this function one char at a time
 {
-	if (ch >= 0) // Make sure the char is not -1 (i.e. nothing available)
-	{
+	
 		ParseNAV_PVTMessage(ch);
-	}
+
 }
 
 //
@@ -82,7 +81,7 @@ uint32_t uBloxGPS::PositionFixAge()
 //
 //
 //
-void uBloxGPS::ParseNAV_PVTMessage(char ch)
+void uBloxGPS::ParseNAV_PVTMessage(uint8_t ch)
 {
 	switch (ParserState)
 	{
@@ -166,7 +165,7 @@ void uBloxGPS::ParseNAV_PVTMessage(char ch)
 		// State 8 complete CRC
 	case 8: //CK_B: get 2nd check digit byte
 		CK_B = ch;
-		Serial.println();
+		//Serial.println();
 
 		// Verify checksum
 		uint16_t check1 = CalcChecksum((uint8_t *)&WorkingPVT, sizeof(NAVPVTMsg));  // Checksum for the data collected
@@ -174,6 +173,7 @@ void uBloxGPS::ParseNAV_PVTMessage(char ch)
 
 		if (check1 == check2) // Checksum matches, all is good.
 		{
+			
 			// Make PVT data available, update status
 							
 			memcpy((void *)&PVT, (void *)&WorkingPVT, sizeof(NAVPVTMsg));  // Copy Working PVT to LastGoodPVT

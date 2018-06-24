@@ -124,7 +124,7 @@ public:
 	uBloxGPS();
 	
 	// Public Methods
-	void FeedMe(char ch); // Send serial stream one character at a time to this function.
+	void FeedMe(uint8_t ch); // Send serial stream one character at a time to this function.
 	bool IsValidFixPosition(); // Will be true if a the current PVT position data contains a valid position... 
 							   // it may not be accurate, but it is a position
 						       // Use other PVT data to assess the quality of the fix. (DPO, hAcc, vAcc, fixType..)
@@ -134,7 +134,7 @@ public:
 
 	// Private methods
 private:
-	void ParseNAV_PVTMessage(char ch);  // Message parser routine
+	void ParseNAV_PVTMessage(uint8_t ch);  // Message parser routine
 	uint16_t CalcChecksum(uint8_t *buff, int len); // Calculate checksum value from a buffer + length.
 };
 
